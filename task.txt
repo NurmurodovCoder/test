@@ -1,0 +1,60 @@
+1. Category nomi M bilan boshlanganlari
+
+     Category.objects.filter(title__istartwith="m")
+
+2. category ichida avto so'zi qatnashganlari.
+
+     Category.objects.filter(title__icontanis='auto')
+
+3. Ikkinchi 5 talik kategoriyalar.
+
+     Category.objects.order_by('created_at')[5:10]
+
+4. 2023 yilda yaratilgan categorylar.
+
+     Category.objects.filter(create_at__years=2023)
+
+5. Categorylarni oxirigi yangilanish bo'yicha tartiblab chiqish.
+
+     Category.objects.order_by('-update_at')
+
+6. Category producti nomida matiz qatnashganlari
+
+     Category.objects.filter(ads__title__icontans='matiz')
+
+7. Category lar ro'yxati, qaysiki producti mavjud bo'lgan.
+
+     category = Category.objects.filter(category__ads.count > 1)
+
+8. Categorylar ro'yxati, 2022 yilda chiqganlari yoki nomi S harfi bilan boshlanganlari.
+
+     Category.objects.filter(create_at='2022' or title__istartwith='s')
+
+9. Product dagi ko'rishlar sonini bittaga ortdirish, query orqali.
+
+     Product.objects.update(views=models.F('views') + 1)
+
+10. Category nomlarini bitta bitta print qiling + har bitta categoryga tegishli bo'lgan product nomlarini bitta bita print qiling. for orqali
+
+     from yourapp.models import Category, Product
+
+     categories = Category.objects.all()
+     for category in categories:
+          print(f"Category: {category.name}")
+
+          products = Product.objects.filter(category=category)
+          for product in products:
+               print(f"Product: {product.name}")
+          
+11. Barcha productlarni ko'rishlar sonini
+
+     product_views = Products.objects.agregate(total = models.Sum('views))
+
+12. Productlarda o'rtacha narx, maximal narx, minimal narx.
+
+     average_price = Product.objects.aggregate(average_price=Avg('price'))['average_price']
+     max_price = Product.objects.aggregate(max_price=Max('price'))['max_price']
+     min_price = Product.objects.aggregate(min_price=Min('price'))['min_price']
+
+
+
